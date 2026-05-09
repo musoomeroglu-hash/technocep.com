@@ -1,44 +1,16 @@
-"use client";
-
 import type { Metadata } from "next";
-import { Shield, Zap, Award, Users, Heart, Target, CheckCircle } from "lucide-react";
+import { Shield, Zap, Award, Heart, Target, CheckCircle } from "lucide-react";
 import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
+import CountUp from "@/components/ui/CountUp";
 import ScrollReveal, { StaggerItem } from "@/components/effects/ScrollReveal";
 import TextReveal from "@/components/effects/TextReveal";
-import { motion, useInView } from "motion/react";
-import { useRef, useEffect, useState } from "react";
 
-function CountUp({ target, suffix = "" }: { target: number; suffix?: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true });
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!inView) return;
-    const duration = 1500;
-    const steps = 60;
-    const increment = target / steps;
-    let current = 0;
-    const timer = setInterval(() => {
-      current += increment;
-      if (current >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(current));
-      }
-    }, duration / steps);
-    return () => clearInterval(timer);
-  }, [inView, target]);
-
-  return (
-    <span ref={ref}>
-      {count}
-      {suffix}
-    </span>
-  );
-}
+export const metadata: Metadata = {
+  title: "techno.cep | Hakkımızda",
+  description:
+    "techno.cep hakkında — Bursa Nilüfer'de güvenilir cep telefonu servisi. Hikayemiz, değerlerimiz ve misyonumuz.",
+};
 
 const values = [
   {
@@ -131,7 +103,6 @@ export default function HakkimizdaPage() {
               </div>
             </ScrollReveal>
 
-            {/* Görsel kart */}
             <ScrollReveal direction="left" delay={0.2}>
               <div className="relative">
                 <div className="bg-gradient-to-br from-[#1a1a2e] to-[#16162a] rounded-3xl p-10 text-white overflow-hidden">
@@ -155,7 +126,6 @@ export default function HakkimizdaPage() {
                     </ul>
                   </div>
                 </div>
-                {/* Dekoratif kart arkası */}
                 <div className="absolute -bottom-3 -right-3 w-full h-full bg-[#00d4ff]/10 rounded-3xl -z-10" />
               </div>
             </ScrollReveal>
@@ -199,7 +169,7 @@ export default function HakkimizdaPage() {
           </ScrollReveal>
 
           <ScrollReveal stagger className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {stats.map((stat, i) => (
+            {stats.map((stat) => (
               <StaggerItem key={stat.label}>
                 <div className="text-center space-y-2">
                   <p className="font-heading font-black text-5xl text-[#1a1a2e]">
