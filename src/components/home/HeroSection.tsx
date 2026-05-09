@@ -7,10 +7,40 @@ import FloatingPhone from "@/components/effects/FloatingPhone";
 import TextReveal from "@/components/effects/TextReveal";
 import MagneticButton from "@/components/effects/MagneticButton";
 import ScrollReveal from "@/components/effects/ScrollReveal";
-import { SITE_CONFIG } from "@/lib/constants";
 import { motion } from "motion/react";
 
-export default function HeroSection() {
+type HeroData = {
+  badge: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  ctaText: string;
+  ctaLink: string;
+} | null;
+
+type SiteConfigData = {
+  phone: string;
+  whatsapp: string;
+} | null;
+
+export default function HeroSection({
+  hero,
+  siteConfig,
+}: {
+  hero: HeroData;
+  siteConfig: SiteConfigData;
+}) {
+  const badge = hero?.badge ?? "Bursa Nilüfer'de Hizmetinizdeyiz";
+  const title = hero?.title ?? "techno.cep";
+  const subtitle = hero?.subtitle ?? "Teknolojinin Güvenilir Adresi";
+  const description =
+    hero?.description ??
+    "Ekran değişiminden anakart tamirine, aksesuar satışından yazılım hizmetine — cihazınız için ihtiyacınız olan her şey tek adreste.";
+  const ctaText = hero?.ctaText ?? "Hizmetlerimiz";
+  const ctaLink = hero?.ctaLink ?? "/hizmetler";
+  const phone = siteConfig?.phone ?? "0501 660 16 26";
+  const whatsapp = siteConfig?.whatsapp ?? "905016601626";
+
   return (
     <section className="relative min-h-[calc(100vh-4rem)] flex items-center overflow-hidden bg-gradient-to-br from-[#f8f9fa] via-white to-[#eff6ff]">
       {/* Particle arka plan */}
@@ -29,14 +59,14 @@ export default function HeroSection() {
             <ScrollReveal direction="down" delay={0.1}>
               <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase text-[#0891b2] bg-[#00d4ff]/10 px-4 py-2 rounded-full">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#00d4ff] animate-pulse" />
-                Bursa Nilüfer&apos;de Hizmetinizdeyiz
+                {badge}
               </span>
             </ScrollReveal>
 
             {/* Ana başlık */}
             <div>
               <TextReveal
-                text="techno.cep"
+                text={title}
                 tag="h1"
                 by="char"
                 delay={0.15}
@@ -44,7 +74,7 @@ export default function HeroSection() {
               />
               <ScrollReveal direction="up" delay={0.4}>
                 <p className="mt-3 font-heading font-semibold text-2xl sm:text-3xl text-[#00d4ff]">
-                  Teknolojinin Güvenilir Adresi
+                  {subtitle}
                 </p>
               </ScrollReveal>
             </div>
@@ -52,7 +82,7 @@ export default function HeroSection() {
             {/* Açıklama */}
             <ScrollReveal direction="up" delay={0.5}>
               <p className="text-gray-500 text-lg leading-relaxed max-w-lg">
-                Ekran değişiminden anakart tamirine, aksesuar satışından yazılım hizmetine — cihazınız için ihtiyacınız olan her şey tek adreste.
+                {description}
               </p>
             </ScrollReveal>
 
@@ -61,17 +91,17 @@ export default function HeroSection() {
               <div className="flex flex-wrap gap-4">
                 <MagneticButton className="cursor-pointer">
                   <Link
-                    href="/hizmetler"
+                    href={ctaLink}
                     className="inline-flex items-center gap-2 bg-[#1a1a2e] text-white px-7 py-3.5 rounded-xl font-semibold text-sm hover:bg-[#16162a] transition-colors shadow-lg shadow-[#1a1a2e]/20"
                   >
-                    Hizmetlerimiz
+                    {ctaText}
                     <ChevronRight size={16} />
                   </Link>
                 </MagneticButton>
 
                 <MagneticButton className="cursor-pointer">
                   <a
-                    href={`https://wa.me/${SITE_CONFIG.whatsapp}?text=Merhaba, bilgi almak istiyorum.`}
+                    href={`https://wa.me/${whatsapp}?text=Merhaba, bilgi almak istiyorum.`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 bg-green-500 text-white px-7 py-3.5 rounded-xl font-semibold text-sm hover:bg-green-600 transition-colors shadow-lg shadow-green-500/25"
@@ -88,8 +118,8 @@ export default function HeroSection() {
               <div className="flex flex-wrap gap-6 pt-4 border-t border-gray-100">
                 <div className="flex items-center gap-2 text-sm text-gray-500">
                   <Phone size={14} className="text-[#00d4ff]" />
-                  <a href={`tel:${SITE_CONFIG.phone.replace(/\s/g, "")}`} className="hover:text-[#1a1a2e] transition-colors">
-                    {SITE_CONFIG.phone}
+                  <a href={`tel:${phone.replace(/\s/g, "")}`} className="hover:text-[#1a1a2e] transition-colors">
+                    {phone}
                   </a>
                 </div>
                 <div className="text-sm text-gray-500">

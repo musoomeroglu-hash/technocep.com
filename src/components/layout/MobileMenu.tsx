@@ -3,7 +3,13 @@
 import { motion, AnimatePresence } from "motion/react";
 import Link from "next/link";
 import { X, Phone, MessageCircle } from "lucide-react";
-import { NAV_LINKS, SITE_CONFIG } from "@/lib/constants";
+
+const NAV_LINKS = [
+  { label: "Ana Sayfa", href: "/" },
+  { label: "Hizmetler", href: "/hizmetler" },
+  { label: "Hakkımızda", href: "/hakkimizda" },
+  { label: "İletişim", href: "/iletisim" },
+];
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -94,7 +100,7 @@ export default function MobileMenu({ isOpen, onClose, pathname }: MobileMenuProp
               animate={{ opacity: 1, y: 0, transition: { delay: 0.4 } }}
             >
               <a
-                href={`https://wa.me/${SITE_CONFIG.whatsapp}`}
+                href="https://wa.me/905016601626"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 w-full bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-xl font-medium transition-colors"
@@ -103,24 +109,11 @@ export default function MobileMenu({ isOpen, onClose, pathname }: MobileMenuProp
                 WhatsApp&apos;tan Yaz
               </a>
               <a
-                href={`tel:${SITE_CONFIG.phone.replace(/\s/g, "")}`}
+                href="tel:05016601626"
                 className="flex items-center gap-3 w-full border border-[#1a1a2e] text-[#1a1a2e] px-4 py-3 rounded-xl font-medium hover:bg-[#1a1a2e] hover:text-white transition-colors"
               >
                 <Phone size={18} />
-                {SITE_CONFIG.phone}
-              </a>
-              <a
-                href={SITE_CONFIG.instagramUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 text-gray-500 hover:text-[#00d4ff] transition-colors text-sm px-4"
-              >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                  <circle cx="12" cy="12" r="4" />
-                  <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
-                </svg>
-                @{SITE_CONFIG.instagram}
+                0501 660 16 26
               </a>
             </motion.div>
           </motion.div>

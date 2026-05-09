@@ -1,55 +1,66 @@
 import { Phone, MapPin, Clock, MessageCircle } from "lucide-react";
-import { SITE_CONFIG } from "@/lib/constants";
+import { prisma } from "@/lib/db";
 import ScrollReveal, { StaggerItem } from "@/components/effects/ScrollReveal";
 
-const items = [
-  {
-    icon: <Phone size={20} />,
-    label: "Telefon",
-    value: SITE_CONFIG.phone,
-    href: `tel:${SITE_CONFIG.phone.replace(/\s/g, "")}`,
-    color: "bg-blue-50 text-blue-600",
-  },
-  {
-    icon: <MessageCircle size={20} />,
-    label: "WhatsApp",
-    value: SITE_CONFIG.phone,
-    href: `https://wa.me/${SITE_CONFIG.whatsapp}?text=Merhaba, bilgi almak istiyorum.`,
-    color: "bg-green-50 text-green-600",
-    external: true,
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-        <circle cx="12" cy="12" r="4" />
-        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
-      </svg>
-    ),
-    label: "Instagram",
-    value: `@${SITE_CONFIG.instagram}`,
-    href: SITE_CONFIG.instagramUrl,
-    color: "bg-pink-50 text-pink-500",
-    external: true,
-  },
-  {
-    icon: <MapPin size={20} />,
-    label: "Adres",
-    value: SITE_CONFIG.address,
-    href: SITE_CONFIG.googleMapsUrl,
-    color: "bg-orange-50 text-orange-500",
-    external: true,
-  },
-  {
-    icon: <Clock size={20} />,
-    label: "Çalışma Saatleri",
-    value: `${SITE_CONFIG.workingHours.weekdays}\n${SITE_CONFIG.workingHours.weekend}`,
-    href: null,
-    color: "bg-purple-50 text-purple-600",
-  },
-];
+export default async function ContactInfo() {
+  const config = await prisma.siteConfig.findUnique({ where: { id: "main" } });
 
-export default function ContactInfo() {
+  const phone = config?.phone ?? "0501 660 16 26";
+  const whatsapp = config?.whatsapp ?? "905016601626";
+  const instagram = config?.instagram ?? "techno.cep";
+  const instagramUrl = config?.instagramUrl ?? "https://instagram.com/techno.cep";
+  const address = config?.address ?? "Cumhuriyet Mahallesi, Hatun Caddesi No: 52/F, Nilüfer / Bursa";
+  const googleMapsUrl = config?.googleMapsUrl ?? "";
+  const weekdayHours = config?.weekdayHours ?? "Pazartesi – Cumartesi: 10:30 – 21:00";
+  const weekendHours = config?.weekendHours ?? "Pazar: Kapalı";
+
+  const items = [
+    {
+      icon: <Phone size={20} />,
+      label: "Telefon",
+      value: phone,
+      href: `tel:${phone.replace(/\s/g, "")}`,
+      color: "bg-blue-50 text-blue-600",
+    },
+    {
+      icon: <MessageCircle size={20} />,
+      label: "WhatsApp",
+      value: phone,
+      href: `https://wa.me/${whatsapp}?text=Merhaba, bilgi almak istiyorum.`,
+      color: "bg-green-50 text-green-600",
+      external: true,
+    },
+    {
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+          <circle cx="12" cy="12" r="4" />
+          <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+        </svg>
+      ),
+      label: "Instagram",
+      value: `@${instagram}`,
+      href: instagramUrl,
+      color: "bg-pink-50 text-pink-500",
+      external: true,
+    },
+    {
+      icon: <MapPin size={20} />,
+      label: "Adres",
+      value: address,
+      href: googleMapsUrl,
+      color: "bg-orange-50 text-orange-500",
+      external: true,
+    },
+    {
+      icon: <Clock size={20} />,
+      label: "Çalışma Saatleri",
+      value: `${weekdayHours}\n${weekendHours}`,
+      href: null as string | null,
+      color: "bg-purple-50 text-purple-600",
+    },
+  ];
+
   return (
     <ScrollReveal stagger className="space-y-4">
       {items.map((item) => (

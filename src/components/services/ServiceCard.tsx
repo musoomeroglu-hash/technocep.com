@@ -1,7 +1,6 @@
 import {
   Smartphone, BatteryCharging, Cpu, HardDrive, Code, ShoppingBag,
 } from "lucide-react";
-import type { Service } from "@/types";
 
 const iconMap: Record<string, React.ReactNode> = {
   Smartphone: <Smartphone size={36} />,
@@ -12,22 +11,15 @@ const iconMap: Record<string, React.ReactNode> = {
   ShoppingBag: <ShoppingBag size={36} />,
 };
 
-const details: Record<string, string[]> = {
-  ekran: ["Tüm marka ve modeller", "Orijinal & A+ kalite ekranlar", "Aynı gün teslimat", "Garanti belgesi ile"],
-  batarya: ["Orijinal batarya seçeneği", "Şişmiş batarya acil değişim", "Aynı gün teslimat", "6 ay işçilik garantisi"],
-  anakart: ["Mikroskop altında tamir", "Kısa devre onarımı", "Sinyal & şarj arızaları", "Ücretsiz ön değerlendirme"],
-  "veri-kurtarma": ["Su hasarlı cihazlar", "Açılmayan cihazlar", "Fotoğraf & video kurtarma", "Gizlilik garantisi"],
-  yazilim: ["Format & güncelleme", "Virüs temizleme", "Şifre kırma", "Yedekleme hizmeti"],
-  aksesuar: ["50+ aksesuar çeşidi", "Tüm modellere uygun", "Orijinal ürün garantisi", "Uygun fiyat"],
+type ServiceData = {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  details: string[];
 };
 
-interface ServiceCardProps {
-  service: Service;
-}
-
-export default function ServiceCard({ service }: ServiceCardProps) {
-  const cardDetails = details[service.id] ?? [];
-
+export default function ServiceCard({ service }: { service: ServiceData }) {
   return (
     <div className="group relative bg-white rounded-2xl border border-gray-100 p-8 shadow-sm hover:shadow-xl hover:-translate-y-1.5 hover:border-[#00d4ff]/40 transition-all duration-300 overflow-hidden h-full flex flex-col">
       {/* Hover arka plan */}
@@ -49,9 +41,9 @@ export default function ServiceCard({ service }: ServiceCardProps) {
       </p>
 
       {/* Detay listesi */}
-      {cardDetails.length > 0 && (
+      {service.details.length > 0 && (
         <ul className="relative space-y-2">
-          {cardDetails.map((d) => (
+          {service.details.map((d) => (
             <li key={d} className="flex items-center gap-2 text-sm text-gray-400">
               <span className="w-1.5 h-1.5 rounded-full bg-[#00d4ff] shrink-0" />
               {d}

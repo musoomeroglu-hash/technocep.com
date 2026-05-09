@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Sora, DM_Sans } from "next/font/google";
 import "./globals.css";
+import { prisma } from "@/lib/db";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CursorGlow from "@/components/effects/CursorGlow";
@@ -30,16 +31,20 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const siteConfig = await prisma.siteConfig.findUnique({
+    where: { id: "main" },
+  });
+
   return (
     <html lang="tr" className={`${sora.variable} ${dmSans.variable} h-full`}>
       <body className="min-h-full flex flex-col font-body antialiased bg-white text-gray-900">
         <CursorGlow />
-        <Navbar />
+        <Navbar whatsapp={siteConfig?.whatsapp} />
         <main className="flex-1 pt-16">{children}</main>
         <Footer />
       </body>

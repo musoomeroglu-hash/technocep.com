@@ -5,12 +5,18 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useScroll, useTransform } from "motion/react";
 import { Menu, MessageCircle } from "lucide-react";
-import { NAV_LINKS, SITE_CONFIG } from "@/lib/constants";
 import MagneticButton from "@/components/effects/MagneticButton";
 import MobileMenu from "@/components/layout/MobileMenu";
 import { cn } from "@/lib/utils";
 
-export default function Navbar() {
+const NAV_LINKS = [
+  { label: "Ana Sayfa", href: "/" },
+  { label: "Hizmetler", href: "/hizmetler" },
+  { label: "Hakkımızda", href: "/hakkimizda" },
+  { label: "İletişim", href: "/iletisim" },
+];
+
+export default function Navbar({ whatsapp }: { whatsapp?: string }) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const { scrollY } = useScroll();
@@ -18,11 +24,16 @@ export default function Navbar() {
   const bgOpacity = useTransform(scrollY, [0, 80], [0, 1]);
   const borderOpacity = useTransform(scrollY, [0, 80], [0, 0.1]);
 
+  const wa = whatsapp ?? "905016601626";
+
   // Menü açıkken body scroll kilitle
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
+
+  // Admin sayfalarında navbar gösterme
+  if (pathname.startsWith("/admin")) return null;
 
   return (
     <>
@@ -79,7 +90,7 @@ export default function Navbar() {
           {/* Desktop CTA */}
           <div className="hidden md:block">
             <MagneticButton
-              href={`https://wa.me/${SITE_CONFIG.whatsapp}`}
+              href={`https://wa.me/${wa}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 bg-[#1a1a2e] hover:bg-[#16162a] text-white text-sm font-medium px-5 py-2.5 rounded-xl transition-colors shadow-sm cursor-pointer"

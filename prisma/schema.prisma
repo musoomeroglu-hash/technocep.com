@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model SiteConfig {
+  id           String   @id @default("main")
+  name         String   @default("techno.cep")
+  tagline      String   @default("Teknolojinin Güvenilir Adresi")
+  description  String   @default("")
+  phone        String   @default("")
+  whatsapp     String   @default("")
+  instagram    String   @default("")
+  instagramUrl String   @default("")
+  address      String   @default("")
+  googleMapsUrl String  @default("")
+  weekdayHours String   @default("Pazartesi – Cumartesi: 10:30 – 21:00")
+  weekendHours String   @default("Pazar: Kapalı")
+  mapEmbedUrl  String   @default("")
+  updatedAt    DateTime @updatedAt
+}
+
+model HeroSection {
+  id          String   @id @default("main")
+  badge       String   @default("Bursa Nilüfer'de Hizmetinizdeyiz")
+  title       String   @default("techno.cep")
+  subtitle    String   @default("Teknolojinin Güvenilir Adresi")
+  description String   @default("")
+  ctaText     String   @default("Hizmetlerimiz")
+  ctaLink     String   @default("/hizmetler")
+  updatedAt   DateTime @updatedAt
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  icon        String
+  details     String[]
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Brand {
+  id       String  @id @default(cuid())
+  name     String
+  order    Int     @default(0)
+  isActive Boolean @default(true)
+}
+
+model WhyUsItem {
+  id          String  @id @default(cuid())
+  title       String
+  description String
+  icon        String
+  color       String  @default("cyan")
+  order       Int     @default(0)
+  isActive    Boolean @default(true)
+}
+
+model Stat {
+  id     String @id @default(cuid())
+  target Int
+  suffix String @default("+")
+  label  String
+  order  Int    @default(0)
+}
+
+model AboutPage {
+  id           String   @id @default("main")
+  story        String   @default("")
+  mission      String   @default("")
+  missionItems String[]
+  updatedAt    DateTime @updatedAt
+}
+
+model AdminUser {
+  id       String @id @default(cuid())
+  email    String @unique
+  password String
+}

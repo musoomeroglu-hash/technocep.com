@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { MessageCircle, Phone, ArrowRight } from "lucide-react";
+import { prisma } from "@/lib/db";
 import ServiceGrid from "@/components/services/ServiceGrid";
 import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import ScrollReveal from "@/components/effects/ScrollReveal";
 import TextReveal from "@/components/effects/TextReveal";
 import MagneticButton from "@/components/effects/MagneticButton";
-import { SITE_CONFIG } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "techno.cep | Hizmetlerimiz",
@@ -14,7 +14,11 @@ export const metadata: Metadata = {
     "Ekran değişimi, batarya tamiri, anakart tamiri, veri kurtarma, yazılım hizmetleri ve aksesuar satışı. Bursa Nilüfer'de profesyonel cep telefonu servisi.",
 };
 
-export default function HizmetlerPage() {
+export default async function HizmetlerPage() {
+  const siteConfig = await prisma.siteConfig.findUnique({ where: { id: "main" } });
+  const phone = siteConfig?.phone ?? "0501 660 16 26";
+  const whatsapp = siteConfig?.whatsapp ?? "905016601626";
+
   return (
     <>
       {/* Page Header */}
@@ -68,7 +72,7 @@ export default function HizmetlerPage() {
 
               <div className="relative flex flex-col sm:flex-row items-center justify-center gap-4">
                 <MagneticButton
-                  href={`https://wa.me/${SITE_CONFIG.whatsapp}?text=Merhaba, hizmetleriniz hakkında bilgi almak istiyorum.`}
+                  href={`https://wa.me/${whatsapp}?text=Merhaba, hizmetleriniz hakkında bilgi almak istiyorum.`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 bg-green-500 hover:bg-green-400 text-white px-7 py-3.5 rounded-xl font-semibold text-sm transition-colors cursor-pointer group"
@@ -79,11 +83,11 @@ export default function HizmetlerPage() {
                 </MagneticButton>
 
                 <a
-                  href={`tel:${SITE_CONFIG.phone.replace(/\s/g, "")}`}
+                  href={`tel:${phone.replace(/\s/g, "")}`}
                   className="flex items-center gap-2 border border-white/20 hover:border-[#00d4ff]/50 text-white hover:text-[#00d4ff] px-7 py-3.5 rounded-xl font-semibold text-sm transition-all"
                 >
                   <Phone size={16} />
-                  {SITE_CONFIG.phone}
+                  {phone}
                 </a>
               </div>
             </div>

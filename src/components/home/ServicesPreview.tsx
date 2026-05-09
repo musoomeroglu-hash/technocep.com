@@ -2,7 +2,6 @@ import Link from "next/link";
 import {
   Smartphone, BatteryCharging, Cpu, HardDrive, Code, ShoppingBag, ChevronRight,
 } from "lucide-react";
-import { SERVICES } from "@/lib/constants";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Container from "@/components/ui/Container";
 import ScrollReveal, { StaggerItem } from "@/components/effects/ScrollReveal";
@@ -16,7 +15,14 @@ const iconMap: Record<string, React.ReactNode> = {
   ShoppingBag: <ShoppingBag size={28} />,
 };
 
-export default function ServicesPreview() {
+type ServiceData = {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+};
+
+export default function ServicesPreview({ services }: { services: ServiceData[] }) {
   return (
     <section className="py-24 bg-white">
       <Container>
@@ -30,7 +36,7 @@ export default function ServicesPreview() {
         </ScrollReveal>
 
         <ScrollReveal stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {SERVICES.map((service) => (
+          {services.map((service) => (
             <StaggerItem key={service.id}>
               <div className="group relative bg-white rounded-2xl border border-gray-100 p-7 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-[#00d4ff]/40 transition-all duration-300 overflow-hidden h-full">
                 {/* Hover arka plan */}

@@ -4,8 +4,9 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Send, CheckCircle } from "lucide-react";
 import MagneticButton from "@/components/effects/MagneticButton";
-import { SITE_CONFIG } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+
+const WHATSAPP = "905016601626";
 
 const topics = [
   { value: "", label: "Konu seçin..." },
@@ -55,7 +56,7 @@ export default function ContactForm() {
     const text = encodeURIComponent(
       `Merhaba! Form üzerinden mesaj:\n\n*İsim:* ${form.name}\n*Telefon:* ${form.phone}\n*Konu:* ${form.topic}\n*Mesaj:* ${form.message}`
     );
-    window.open(`https://wa.me/${SITE_CONFIG.whatsapp}?text=${text}`, "_blank");
+    window.open(`https://wa.me/${WHATSAPP}?text=${text}`, "_blank");
     setSubmitted(true);
   };
 

@@ -1,8 +1,11 @@
-import { BRANDS } from "@/lib/constants";
+type BrandData = {
+  id: string;
+  name: string;
+};
 
-const doubled = [...BRANDS, ...BRANDS];
+export default function BrandsSection({ brands }: { brands: BrandData[] }) {
+  const doubled = [...brands, ...brands];
 
-export default function BrandsSection() {
   return (
     <section className="py-16 bg-[#f8f9fa] overflow-hidden">
       <div className="text-center mb-10">
@@ -27,7 +30,7 @@ export default function BrandsSection() {
                 key={`a-${i}`}
                 className="font-heading font-bold text-2xl text-[#1a1a2e]/20 whitespace-nowrap px-4 hover:text-[#1a1a2e]/50 transition-colors cursor-default"
               >
-                {brand}
+                {brand.name}
               </span>
             ))}
           </div>
@@ -44,7 +47,7 @@ export default function BrandsSection() {
                 key={`b-${i}`}
                 className="font-heading font-bold text-xl text-[#00d4ff]/25 whitespace-nowrap px-4 hover:text-[#00d4ff]/60 transition-colors cursor-default"
               >
-                {brand}
+                {brand.name}
               </span>
             ))}
           </div>

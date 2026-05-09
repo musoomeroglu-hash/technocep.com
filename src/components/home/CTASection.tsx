@@ -3,10 +3,17 @@
 import { MessageCircle, Phone, ArrowRight } from "lucide-react";
 import MagneticButton from "@/components/effects/MagneticButton";
 import ScrollReveal from "@/components/effects/ScrollReveal";
-import { SITE_CONFIG } from "@/lib/constants";
 import { motion } from "motion/react";
 
-export default function CTASection() {
+type SiteConfigData = {
+  phone: string;
+  whatsapp: string;
+} | null;
+
+export default function CTASection({ siteConfig }: { siteConfig: SiteConfigData }) {
+  const phone = siteConfig?.phone ?? "0501 660 16 26";
+  const whatsapp = siteConfig?.whatsapp ?? "905016601626";
+
   return (
     <section className="relative py-24 overflow-hidden">
       {/* Arka plan */}
@@ -39,7 +46,7 @@ export default function CTASection() {
         <ScrollReveal direction="up" delay={0.2}>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <MagneticButton
-              href={`https://wa.me/${SITE_CONFIG.whatsapp}?text=Merhaba, cihazımla ilgili yardım almak istiyorum.`}
+              href={`https://wa.me/${whatsapp}?text=Merhaba, cihazımla ilgili yardım almak istiyorum.`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 bg-green-500 hover:bg-green-400 text-white px-8 py-4 rounded-xl font-bold text-base transition-colors shadow-xl shadow-green-500/20 cursor-pointer group"
@@ -50,11 +57,11 @@ export default function CTASection() {
             </MagneticButton>
 
             <a
-              href={`tel:${SITE_CONFIG.phone.replace(/\s/g, "")}`}
+              href={`tel:${phone.replace(/\s/g, "")}`}
               className="flex items-center gap-3 border border-white/20 hover:border-[#00d4ff]/60 text-white hover:text-[#00d4ff] px-8 py-4 rounded-xl font-semibold text-base transition-all"
             >
               <Phone size={18} />
-              {SITE_CONFIG.phone}
+              {phone}
             </a>
           </div>
         </ScrollReveal>

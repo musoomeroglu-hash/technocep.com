@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Shield, Zap, Award, Heart, Target, CheckCircle } from "lucide-react";
+import { prisma } from "@/lib/db";
 import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import CountUp from "@/components/ui/CountUp";
@@ -39,14 +40,16 @@ const values = [
   },
 ];
 
-const stats = [
-  { target: 500, suffix: "+", label: "Mutlu Müşteri" },
-  { target: 1000, suffix: "+", label: "Başarılı Tamir" },
-  { target: 50, suffix: "+", label: "Aksesuar Çeşidi" },
-  { target: 100, suffix: "%", label: "Garanti" },
-];
+export default async function HakkimizdaPage() {
+  const [about, stats] = await Promise.all([
+    prisma.aboutPage.findUnique({ where: { id: "main" } }),
+    prisma.stat.findMany({ orderBy: { order: "asc" } }),
+  ]);
 
-export default function HakkimizdaPage() {
+  const storyParagraphs = (about?.story ?? "").split("\n\n").filter(Boolean);
+  const mission = about?.mission ?? "";
+  const missionItems = about?.missionItems ?? [];
+
   return (
     <>
       {/* Page Header */}
@@ -85,20 +88,9 @@ export default function HakkimizdaPage() {
                   title="Teknoloji sevgisiyle başladı"
                 />
                 <div className="space-y-4 text-gray-500 leading-relaxed">
-                  <p>
-                    Bursa Nilüfer&apos;de teknoloji sevdalıları için güvenilir bir nokta olmak amacıyla yola çıktık.
-                    Cep telefonu kullanıcılarının yaşadığı sorunları yakından bilen bir ekip olarak,
-                    kaliteli hizmetin herkes için erişilebilir olması gerektiğine inanıyoruz.
-                  </p>
-                  <p>
-                    Yıllar içinde biriktirdiğimiz deneyim ve uzmanlaşmış teknik bilgimizle,
-                    ekran değişiminden anakart tamirine kadar her türlü cihaz sorununa çözüm üretiyoruz.
-                    Her tamirde orijinal veya A+ kalite parça kullanarak işimizin arkasında duruyoruz.
-                  </p>
-                  <p>
-                    Müşteri memnuniyeti bizim için bir hedef değil, bir vazgeçilmez. Her cihazı kendi
-                    cihazımız gibi özenle tamir ediyor, her müşterimize dürüst ve şeffaf bir hizmet sunuyoruz.
-                  </p>
+                  {storyParagraphs.map((p, i) => (
+                    <p key={i}>{p}</p>
+                  ))}
                 </div>
               </div>
             </ScrollReveal>
@@ -113,11 +105,10 @@ export default function HakkimizdaPage() {
                     </div>
                     <h3 className="font-heading font-bold text-2xl">Misyonumuz</h3>
                     <p className="text-gray-300 leading-relaxed">
-                      Bursa Nilüfer&apos;deki her kullanıcının teknolojik sorunlarına hızlı, uygun fiyatlı
-                      ve garantili çözümler sunarak hayatlarını kolaylaştırmak.
+                      {mission}
                     </p>
                     <ul className="space-y-3">
-                      {["Orijinal parça kullanımı", "Garantili işçilik", "Şeffaf fiyatlandırma", "Hızlı teslimat"].map((item) => (
+                      {missionItems.map((item) => (
                         <li key={item} className="flex items-center gap-2.5 text-sm text-gray-300">
                           <CheckCircle size={15} className="text-[#00d4ff] shrink-0" />
                           {item}
@@ -170,7 +161,7 @@ export default function HakkimizdaPage() {
 
           <ScrollReveal stagger className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat) => (
-              <StaggerItem key={stat.label}>
+              <StaggerItem key={stat.id}>
                 <div className="text-center space-y-2">
                   <p className="font-heading font-black text-5xl text-[#1a1a2e]">
                     <CountUp target={stat.target} suffix={stat.suffix} />

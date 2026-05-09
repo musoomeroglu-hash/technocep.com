@@ -1,5 +1,4 @@
 import { Zap, Shield, Award, Wallet } from "lucide-react";
-import { WHY_US } from "@/lib/constants";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Container from "@/components/ui/Container";
 import ScrollReveal, { StaggerItem } from "@/components/effects/ScrollReveal";
@@ -11,21 +10,34 @@ const iconMap: Record<string, React.ReactNode> = {
   Wallet: <Wallet size={24} />,
 };
 
-const accentColors = [
-  "from-[#00d4ff]/20 to-[#00d4ff]/5 border-[#00d4ff]/20",
-  "from-green-400/20 to-green-400/5 border-green-400/20",
-  "from-purple-400/20 to-purple-400/5 border-purple-400/20",
-  "from-orange-400/20 to-orange-400/5 border-orange-400/20",
-];
+const colorMap: Record<string, { accent: string; icon: string }> = {
+  cyan: {
+    accent: "from-[#00d4ff]/20 to-[#00d4ff]/5 border-[#00d4ff]/20",
+    icon: "bg-[#00d4ff]/15 text-[#0891b2]",
+  },
+  green: {
+    accent: "from-green-400/20 to-green-400/5 border-green-400/20",
+    icon: "bg-green-500/15 text-green-600",
+  },
+  purple: {
+    accent: "from-purple-400/20 to-purple-400/5 border-purple-400/20",
+    icon: "bg-purple-500/15 text-purple-600",
+  },
+  orange: {
+    accent: "from-orange-400/20 to-orange-400/5 border-orange-400/20",
+    icon: "bg-orange-500/15 text-orange-600",
+  },
+};
 
-const iconColors = [
-  "bg-[#00d4ff]/15 text-[#0891b2]",
-  "bg-green-500/15 text-green-600",
-  "bg-purple-500/15 text-purple-600",
-  "bg-orange-500/15 text-orange-600",
-];
+type WhyUsItemData = {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  color: string;
+};
 
-export default function WhyUsSection() {
+export default function WhyUsSection({ items }: { items: WhyUsItemData[] }) {
   return (
     <section className="py-24 bg-white">
       <Container>
@@ -59,19 +71,23 @@ export default function WhyUsSection() {
 
           {/* Sağ — kartlar */}
           <ScrollReveal stagger className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {WHY_US.map((item, i) => (
-              <StaggerItem key={item.title}>
-                <div
-                  className={`bg-gradient-to-br ${accentColors[i]} border rounded-2xl p-6 space-y-3 group hover:-translate-y-1 transition-transform duration-300`}
-                >
-                  <div className={`inline-flex items-center justify-center w-11 h-11 rounded-xl ${iconColors[i]}`}>
-                    {iconMap[item.icon]}
+            {items.map((item) => {
+              const colors = colorMap[item.color] ?? colorMap.cyan;
+
+              return (
+                <StaggerItem key={item.id}>
+                  <div
+                    className={`bg-gradient-to-br ${colors.accent} border rounded-2xl p-6 space-y-3 group hover:-translate-y-1 transition-transform duration-300`}
+                  >
+                    <div className={`inline-flex items-center justify-center w-11 h-11 rounded-xl ${colors.icon}`}>
+                      {iconMap[item.icon]}
+                    </div>
+                    <h3 className="font-heading font-bold text-[#1a1a2e]">{item.title}</h3>
+                    <p className="text-sm text-gray-500 leading-relaxed">{item.description}</p>
                   </div>
-                  <h3 className="font-heading font-bold text-[#1a1a2e]">{item.title}</h3>
-                  <p className="text-sm text-gray-500 leading-relaxed">{item.description}</p>
-                </div>
-              </StaggerItem>
-            ))}
+                </StaggerItem>
+              );
+            })}
           </ScrollReveal>
         </div>
       </Container>
